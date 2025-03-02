@@ -2,10 +2,10 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    font-family: 'Trebuchet MS';
 }
 
 body {
-    position: relative;
     margin: 0;
     height: 100vh;
     display: flex;
@@ -49,12 +49,13 @@ body.results-active #results {
     align-items: center;
     text-align: center;
     max-width: 400px;
-    margin: 0;
+    margin: 40px;
     padding: 20px;
     border-radius: 5px;
     -webkit-box-shadow: 8px 8px 5px 0px rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 8px 8px 5px 0px rgba(0, 0, 0, 0.75);
     box-shadow: 8px 8px 5px 0px rgba(0, 0, 0, 0.75);
+
 }
 
 input[type="text"] {
@@ -62,18 +63,54 @@ input[type="text"] {
     font-size: 15px;
 }
 
-input::placeholder {
-    font-family: 'Trebuchet MS';
-}
-
 #button {
     width: 100px;
     height: 30px;
     background-color: rgb(255, 255, 255);
     border: 1px solid black;
-    font-family: 'Trebuchet MS';
     cursor: pointer;
 }
+
+/* .suggestions-container {
+    position: absolute;
+    width: 250px;
+    background: white;
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.suggestion-item {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover {
+    background: #f1f1f1;
+}
+ */
+
+#suggestions {
+    position: absolute;
+    width: 20%;
+    top: 50%;
+    /* Ajusta según el tamaño de tu input */
+    z-index: 100;
+}
+
+.suggestion-item {
+    padding: 3px;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid #ccc;
+    font-size: 10px;
+}
+
+.suggestion-item:hover {
+    background-color: #f1f1f1;
+}
+
 
 img {
     width: 80px;
@@ -85,7 +122,6 @@ img {
     flex-direction: column;
     align-items: center;
     background-color: rgba(93, 125, 147, 0.7);
-    font-family: 'Trebuchet MS';
     padding: 10px;
     border-radius: 5px;
     color: whitesmoke;
@@ -139,21 +175,27 @@ img {
 #forecastContainer {
     background-color: rgb(18, 91, 143, 0.5);
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
     text-align: center;
     border-radius: 5px;
+
 }
 
 #forecastItem {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
-    gap: 5px;
-    margin: 10px;
+    align-items: center;
+    margin-top: 0px;
+    margin-bottom: 20px;
+    width: 90px;
+    height: 90px;
+    padding: 10px;
+    justify-content: flex-start;
 }
 
 #forecastTemp {
-    font-size: 15px;
+    font-size: 12px;
     font-weight: bold;
 }
 
@@ -163,10 +205,33 @@ img {
 
 #forecastDescription {
     font-size: 10px;
+    margin-top: 5px;
+    flex-grow: 1;
+    /* Permite que el texto ocupe el espacio disponible */
+    flex-shrink: 0;
+    /* Evita que se encoja */
+    overflow: hidden;
+    /* El texto no desbordará */
+    white-space: nowrap;
+    /* Evita que el texto se divida en varias líneas */
 }
 
 #imgForecast {
     width: 50px;
     height: 50px;
-    justify-self: center;
+    margin-bottom: 10px;
+}
+
+.multi-line-toast {
+    max-width: 250px;
+    /* Ajusta el ancho del toast */
+    white-space: normal;
+    /* Permite que el texto se envuelva */
+    word-wrap: break-word;
+    /* Permite que las palabras se rompan si es necesario */
+    overflow-wrap: break-word;
+    /* Rompe palabras largas */
+    text-align: center;
+    /* Centra el texto */
+    font-size: 12px;
 }

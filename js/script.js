@@ -1,9 +1,69 @@
 let urlBase = "https://api.openweathermap.org/data/2.5/weather"
 let urlForecast = "https://api.openweathermap.org/data/2.5/forecast"
 let api_key = "750d8443a227b5e847d2c1e53af23b9d"
+let geoNamesUser = "pelusa23"
+const citySearch = document.getElementById("citySearch")
+const suggestionsContainer = document.getElementById("suggestions")
 let kelvinDegree = 273.15
 
-document.getElementById("button").addEventListener("click", () => {
+// Evento para detectar cuando el usuario escribe en el input
+citySearch.addEventListener("input", async () => {
+    let query = citySearch.value.trim()
+    if (query.length >= 2) {
+        suggestionsContainer.style.display = "block"
+        await fetchCitySuggestions(query)
+    } else {
+        suggestionsContainer.innerHTML = "";
+        suggestionsContainer.style.display = "none"
+    }
+})
+
+// Función para obtener sugerencias de ciudades desde Geonames
+async function fetchCitySuggestions(query) {
+    try {
+        let response = await fetch(`http://api.geonames.org/searchJSON?q=${query}&maxRows=5&username=${geoNamesUser}&lang=es`)
+        let data = await response.json()
+        console.log("Datos recibidos de Geonames: ", data)
+
+        if (data.geonames.length > 0) {
+            displaySuggestions(data.geonames)
+        } else {
+            suggestionsContainer.innerHTML = ""
+        }
+    } catch (error) {
+        console.error("Error obteniendo sugerencias de ciudades:", error)
+    }
+}
+
+// Función para mostrar las sugerencias
+function displaySuggestions(cities) {
+    suggestionsContainer.innerHTML = ""
+
+    cities.forEach((city) => {
+        let suggestion = document.createElement("div")
+        suggestion.classList.add("suggestion-item")
+        suggestion.textContent = `${city.name}, ${city.countryName}`
+
+        // Evento para seleccionarla ciudad y hacer la consulta
+        suggestion.addEventListener("click", () => {
+            fetchCityData(city.name)
+            citySearch.value = "" // Limpia el input después de seleccionar una ciudad
+            suggestionsContainer.innerHTML = ""
+        })
+
+        suggestionsContainer.appendChild(suggestion)
+    })
+}
+
+// Evento para ocultar sugerencias cuando se hace click fuera del input
+document.addEventListener("click", (e) => {
+    if (!citySearch.contains(e.target) && !suggestionsContainer.contains(e.target)) {
+        suggestionsContainer.innerHTML = ""
+    }
+})
+
+
+/* document.getElementById("button").addEventListener("click", (e) => {
     const cityInput = document.getElementById("citySearch")
     const city = cityInput.value
     if (city) {
@@ -14,8 +74,8 @@ document.getElementById("button").addEventListener("click", () => {
     }
 })
 
-document.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
         const cityInput = document.getElementById("citySearch")
         const city = cityInput.value
         if (city) {
@@ -25,10 +85,36 @@ document.addEventListener("keydown", (event) => {
             e.preventDefault()
         }
     }
+}) */
 
-})
 
-async function fetchCityData(city) {
+document.getElementById("button").addEventListener("click", (e) => {
+    e.preventDefault();
+    handleSearch();
+});
+
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+        e.preventDefault();
+        handleSearch();
+    }
+});
+
+function handleSearch() {
+    const cityInput = document.getElementById("citySearch");
+    const city = cityInput.value.trim();
+
+    if (city) {
+        suggestionsContainer.innerHTML = ""; // 🔥 FORZAMOS LA LIMPIEZA 🔥
+        suggestionsContainer.style.display = "none"; // 🔥 OCULTAMOS EL CONTENEDOR 🔥
+
+        fetchCityData(city);
+        document.body.classList.add("results-active");
+        cityInput.value = "";
+    }
+}
+
+/* async function fetchCityData(city) {
     try {
         const response = await fetch(`${urlBase}?q=${city}&appid=${api_key}&lang=es`)
         const data = await response.json()
@@ -36,7 +122,13 @@ async function fetchCityData(city) {
         // Verifico si la ciudad existe
         if (data.cod !== 200) {
             document.getElementById("results").style.display = "none" // Oculto los resultados
-            alert("Ciudad no encontrada. Por favor intenta con otra.")
+            Swal.fire({
+                title: "Ops!",
+                text: "Ciudad no encontrada. Por favor inténtalo nuevamente",
+                icon: "error",
+                width: "200px",
+                height: "200px"
+            });
             return
         }
 
@@ -46,7 +138,49 @@ async function fetchCityData(city) {
     } catch (error) {
         console.error("Error obteniendo datos de la ciudad:", error)
     }
+} */
+
+async function fetchCityData(city) {
+    try {
+        /* suggestionsContainer.innerHTML = ""
+        suggestionsContainer.style.display = "none" */
+        const response = await fetch(`${urlBase}?q=${city}&appid=${api_key}&lang=es`);
+
+        // Verifica si la respuesta es válida
+        if (!response.ok) {
+            document.getElementById("results").style.display = "none"; // Oculto los resultados
+            Toastify({
+                text: "Ciudad no encontrada.<br>Por favor intentalo nuevamente",
+                duration: 2000,
+                gravity: "top",
+                position: "right",
+                backgroundColor: "rgb(18, 91, 143, 0.7)",
+
+                className: "multi-line-toast",
+                escapeMarkup: false // Permite que se interprete el HTML (incluyendo <br>),
+
+            }).showToast();
+            return;
+        }
+
+        const data = await response.json();
+
+        // Si la ciudad existe, muestra los datos
+        await showData(data);  // Espera a que showData termine antes de continuar
+        await fetchForecast(city); // Ahora se ejecuta en orden
+    } catch (error) {
+        console.error("Error obteniendo datos de la ciudad:", error);
+        Swal.fire({
+            title: "Error",
+            text: "Ocurrió un problema al obtener los datos. Por favor, intenta de nuevo.",
+            icon: "error",
+            width: "500px",
+            heightAuto: false,
+            padding: "5px"
+        })
+    }
 }
+
 
 function getCountryFullName(countryCode) {
     return fetch(`https://restcountries.com/v3.1/alpha/${countryCode}`)
