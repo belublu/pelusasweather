@@ -1,0 +1,172 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    position: relative;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(../src/fondo.jpg);
+    background-size: cover;
+    background-position: center;
+    opacity: 0.4;
+    z-index: -1;
+}
+
+body.results-active #results {
+    margin-left: 30px;
+    /* Aplica un margen cuando se muestren los resultados */
+}
+
+/* h1 {
+    text-align: center;
+    padding: 10px;
+    margin: 10px;
+    font-family: 'Trebuchet MS';
+} */
+
+#card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: rgb(18, 91, 143, 0.6);
+    justify-self: center;
+    align-items: center;
+    text-align: center;
+    max-width: 400px;
+    margin: 0;
+    padding: 20px;
+    border-radius: 5px;
+    -webkit-box-shadow: 8px 8px 5px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 8px 8px 5px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 8px 8px 5px 0px rgba(0, 0, 0, 0.75);
+}
+
+input[type="text"] {
+    padding: 10px;
+    font-size: 15px;
+}
+
+input::placeholder {
+    font-family: 'Trebuchet MS';
+}
+
+#button {
+    width: 100px;
+    height: 30px;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid black;
+    font-family: 'Trebuchet MS';
+    cursor: pointer;
+}
+
+img {
+    width: 80px;
+    height: 80px;
+}
+
+#results {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(93, 125, 147, 0.7);
+    font-family: 'Trebuchet MS';
+    padding: 10px;
+    border-radius: 5px;
+    color: whitesmoke;
+    -webkit-box-shadow: 8px 8px 5px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 8px 8px 5px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 8px 8px 5px 0px rgba(0, 0, 0, 0.75);
+}
+
+#currentWeather {
+    justify-items: center;
+}
+
+#tempData {
+    font-size: 45px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+#descriptionData {
+    font-size: 15px;
+    margin-top: 10px;
+}
+
+#tempMaxMinData,
+#humidityData {
+    line-height: 25px;
+}
+
+#divsContainerWeather {
+    display: flex;
+    gap: 30px;
+}
+
+#divOneCurrentWeather,
+#divTwoCurrentWeather {
+    justify-items: center;
+    margin: 10px;
+}
+
+/* #currentWeather{
+    background-color: rgb(18, 91, 143, 0.5);
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+    padding: 5px;
+    text-align: center;
+    border-radius: 5px;
+    color: whitesmoke;
+} */
+
+#forecastContainer {
+    background-color: rgb(18, 91, 143, 0.5);
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    border-radius: 5px;
+}
+
+#forecastItem {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin: 10px;
+}
+
+#forecastTemp {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+#forecastDay {
+    font-size: 12px;
+}
+
+#forecastDescription {
+    font-size: 10px;
+}
+
+#imgForecast {
+    width: 50px;
+    height: 50px;
+    justify-self: center;
+}
