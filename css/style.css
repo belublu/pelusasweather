@@ -107,10 +107,12 @@ input[type="text"] {
     font-size: 10px;
 }
 
-.suggestion-item:hover {
-    background-color: #f1f1f1;
+.suggestion-item:hover,
+.suggestion-item.selected {
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
 }
-
 
 img {
     width: 80px;

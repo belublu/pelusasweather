@@ -5,6 +5,8 @@ let geoNamesUser = "pelusa23"
 const citySearch = document.getElementById("citySearch")
 const suggestionsContainer = document.getElementById("suggestions")
 let kelvinDegree = 273.15
+let selectedIndex = -1 // Indice de la ciudad seleccionada
+let suggestions = [] // Array de sugerencias de ciudades
 
 // Evento para detectar cuando el usuario escribe en el input
 citySearch.addEventListener("input", async () => {
@@ -38,6 +40,8 @@ async function fetchCitySuggestions(query) {
 // Función para mostrar las sugerencias
 function displaySuggestions(cities) {
     suggestionsContainer.innerHTML = ""
+    suggestions = cities // Guardo las sugerencias en el array
+    selectedIndex = -1 // Reseteo el índice seleccionado
 
     cities.forEach((city) => {
         let suggestion = document.createElement("div")
@@ -53,6 +57,55 @@ function displaySuggestions(cities) {
 
         suggestionsContainer.appendChild(suggestion)
     })
+}
+
+// Evento del teclado para manejar las sugerencias con flechas
+citySearch.addEventListener("keydown", (e) => {
+    let suggestionItems = document.querySelectorAll(".suggestion-item")
+
+    if (e.key === "ArrowDown") {
+        e.preventDefault();
+        if (selectedIndex < suggestions.length - 1) {
+            selectedIndex++;
+        } else {
+            selectedIndex = 0; // Vuelve al primer elemento si está en el último
+        }
+        updateSelection(suggestionItems);
+    } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        if (selectedIndex > 0) {
+            selectedIndex--;
+        } else {
+            selectedIndex = suggestions.length - 1; // Vuelve al último elemento si está en el primero
+        }
+        updateSelection(suggestionItems);
+    } else if (e.key === "Enter") {
+        e.preventDefault();
+        if (selectedIndex > -1) {
+            selectCity(suggestions[selectedIndex].name);
+        }
+    }
+    
+})
+
+// Función para actualizar la selección de la ciudad
+function updateSelection(items) {
+    items.forEach((item, index) => {
+        if (index === selectedIndex) {
+            item.classList.add("selected")
+            citySearch.value = item.textContent
+        } else {
+            item.classList.remove("selected")
+        }
+    })
+}
+
+// Función para seleccionar la ciudad
+function selectCity(city) {
+    fetchCityData(city)
+    citySearch.value = ""
+    suggestionsContainer.innerHTML = ""
+    suggestionsContainer.style.display = "none"
 }
 
 // Evento para ocultar sugerencias cuando se hace click fuera del input
