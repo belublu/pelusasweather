@@ -18,6 +18,11 @@ citySearch.addEventListener("input", async () => {
         suggestionsContainer.innerHTML = "";
         suggestionsContainer.style.display = "none"
     }
+    if (suggestions.length > 0) {
+        suggestionsContainer.style.display = "block";
+    } else {
+        suggestionsContainer.style.display = "none";
+    }
 })
 
 // Función para obtener sugerencias de ciudades desde Geonames
@@ -85,7 +90,7 @@ citySearch.addEventListener("keydown", (e) => {
             selectCity(suggestions[selectedIndex].name);
         }
     }
-    
+
 })
 
 // Función para actualizar la selección de la ciudad

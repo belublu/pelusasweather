@@ -93,7 +93,8 @@ input[type="text"] {
 
 #suggestions {
     position: absolute;
-    width: 20%;
+    width: 90%;
+    max-width: 300px;
     top: 50%;
     /* Ajusta según el tamaño de tu input */
     z-index: 100;
@@ -244,7 +245,10 @@ body {
     flex-direction: column;
     text-align: center;
     padding: 10px;
-    height: 90vh;
+}
+
+body.results-active #results {
+    margin-left: 0; 
 }
 
 #card {
@@ -256,6 +260,13 @@ body {
 @media (min-width: 600px) {
     #card {
         width: 80%;
+    }
+
+    #suggestions {
+        width: 100%;
+        left: 0;
+        right: 0;
+        margin: auto;
     }
 }
 
