@@ -237,3 +237,42 @@ img {
     /* Centra el texto */
     font-size: 12px;
 }
+
+
+/* Estilos por defecto (Mobile-First) */
+body {
+    flex-direction: column;
+    text-align: center;
+    padding: 10px;
+    height: 90vh;
+}
+
+#card {
+    width: 90%;
+    max-width: 400px;
+}
+
+/*  Tablets (pantallas medianas) */
+@media (min-width: 600px) {
+    #card {
+        width: 80%;
+    }
+}
+
+/* Computadoras (pantallas grandes) */
+@media (min-width: 1024px) {
+    body {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #card {
+        width: 400px;
+    }
+
+    #results {
+        display: flex;
+        margin-left: 30px;
+    }
+}
