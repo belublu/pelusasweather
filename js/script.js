@@ -368,15 +368,15 @@ function showForecast(data) {
         if (index % 8 === 0) {
             const forecastDate = new Date(forecast.dt * 1000)
             const dayOfWeek = capFirstLetter(forecastDate.toLocaleDateString("es-ES", { weekday: "long" }))
-            const forecastTemp = Math.floor(forecast.main.temp - kelvinDegree)
             const forecastDescription = capFirstLetter(forecast.weather[0].description)
             const forecastIcon = forecast.weather[0].icon
-
+            const forecastTempMin = Math.floor(forecast.main.temp_min - kelvinDegree);
+            const forecastTempMax = Math.floor(forecast.main.temp_max - kelvinDegree);
             const forecastItem = document.createElement("div")
             forecastItem.id = "forecastItem"
             forecastItem.innerHTML = `
                                 <p id="forecastDay"><strong>${dayOfWeek}</strong></p>
-                                <p id="forecastTemp"><strong>${forecastTemp}°</strong></p>
+                                <p id="forecastMinMax"> ${forecastTempMax}° / ${forecastTempMin}°</p>
                                 <p id="forecastDescription">${forecastDescription}</p>
                                 <img src="http://openweathermap.org/img/wn/${forecastIcon}@4x.png" id="imgForecast">
                                 `

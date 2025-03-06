@@ -94,8 +94,8 @@ input[type="text"] {
 #suggestions {
     position: absolute;
     width: 90%;
-    max-width: 300px;
-    top: 50%;
+    max-width: 190px;
+    top: 49%;
     /* Ajusta según el tamaño de tu input */
     z-index: 100;
 }
@@ -197,9 +197,10 @@ img {
     justify-content: flex-start;
 }
 
-#forecastTemp {
+#forecastMinMax {
     font-size: 12px;
-    font-weight: bold;
+    font-weight: 400;
+    font-size: 10px;
 }
 
 #forecastDay {
@@ -239,51 +240,47 @@ img {
     font-size: 12px;
 }
 
-
-/* Estilos por defecto (Mobile-First) */
-body {
-    flex-direction: column;
-    text-align: center;
-    padding: 10px;
-}
-
-body.results-active #results {
-    margin-left: 0; 
-}
-
-#card {
-    width: 90%;
-    max-width: 400px;
-}
-
-/*  Tablets (pantallas medianas) */
-@media (min-width: 600px) {
+/* Media queries para pantallas mayores */
+@media (min-width: 768px) {
     #card {
-        width: 80%;
-    }
-
-    #suggestions {
-        width: 100%;
-        left: 0;
-        right: 0;
-        margin: auto;
+        margin-right: 20px;
     }
 }
-
-/* Computadoras (pantallas grandes) */
-@media (min-width: 1024px) {
+@media screen and (max-width: 768px) {
     body {
-        flex-direction: row;
+        flex-direction: column;
         align-items: center;
-        justify-content: center;
     }
 
     #card {
-        width: 400px;
+        margin: 10px;
     }
 
-    #results {
-        display: flex;
-        margin-left: 30px;
+    body.results-active #results {
+        margin-left: 25px;
+        margin-right: 25px;
+        margin-top: 10px;
+    }
+
+    #divsContainerWeather {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    #divOneCurrentWeather{
+        margin-top: 30px;
+    }
+
+    #forecastContainer {
+        height: 200px;
+        justify-content: space-evenly;
+        align-content: center;
+    }
+
+    #forecastItem {
+        margin-top: 5px;
+        margin-bottom: 5px;
+        width: 80px;
+        
     }
 }
