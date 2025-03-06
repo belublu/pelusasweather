@@ -111,6 +111,10 @@ function selectCity(city) {
     citySearch.value = ""
     suggestionsContainer.innerHTML = ""
     suggestionsContainer.style.display = "none"
+    suggestions = []
+
+    document.getElementById("backButton").style.display = "block"
+    document.getElementById("card").style.display = "none"
 }
 
 // Evento para ocultar sugerencias cuando se hace click fuera del input
@@ -162,83 +166,70 @@ function handleSearch() {
     const cityInput = document.getElementById("citySearch");
     const city = cityInput.value.trim();
 
-    if (city) {
-        suggestionsContainer.innerHTML = ""; // 🔥 FORZAMOS LA LIMPIEZA 🔥
-        suggestionsContainer.style.display = "none"; // 🔥 OCULTAMOS EL CONTENEDOR 🔥
+    if (!city || suggestions.some(s => s.name === city)) {
+        return
+    }
+
+    suggestionsContainer.innerHTML = "";
+    suggestionsContainer.style.display = "none";
+
+    fetchCityData(city);
+    document.body.classList.add("results-active");
+    cityInput.value = "";
+
+    document.getElementById("backButton").style.display = "block";
+    document.getElementById("card").style.display = "none";
+
+    /* if (city) {
+        suggestionsContainer.innerHTML = ""; 
+        suggestionsContainer.style.display = "none";
 
         fetchCityData(city);
         document.body.classList.add("results-active");
         cityInput.value = "";
-    }
+
+        document.getElementById("backButton").style.display = "block";
+    } */
 }
 
-/* async function fetchCityData(city) {
-    try {
-        const response = await fetch(`${urlBase}?q=${city}&appid=${api_key}&lang=es`)
-        const data = await response.json()
+// Evento para volver al inicio
+document.getElementById("backButton").addEventListener("click", () => {
+    document.getElementById("results").style.display = "none";
+    document.body.classList.remove("results-active")
+    document.getElementById("backButton").style.display = "none"
+    document.getElementById("card").style.display = "block"
+})
+    async function fetchCityData(city) {
+        try {
+            suggestionsContainer.style.display = "none"; // Oculta sugerencias por si acaso
+            suggestions = []; // Borra las sugerencias previas
+    
+            const response = await fetch(`${urlBase}?q=${city}&appid=${api_key}&lang=es`);
+    
+            if (!response.ok) {
+                document.getElementById("results").style.display = "none";
+                Toastify({
+                    text: "Ciudad no encontrada.<br>Por favor inténtalo nuevamente",
+                    duration: 2000,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: "rgb(18, 91, 143, 0.7)",
+                    className: "multi-line-toast",
+                    escapeMarkup: false
+                }).showToast();
+                return;
+            }
+    
+            const data = await response.json();
+            await showData(data);
+            await fetchForecast(city);
 
-        // Verifico si la ciudad existe
-        if (data.cod !== 200) {
-            document.getElementById("results").style.display = "none" // Oculto los resultados
-            Swal.fire({
-                title: "Ops!",
-                text: "Ciudad no encontrada. Por favor inténtalo nuevamente",
-                icon: "error",
-                width: "200px",
-                height: "200px"
-            });
-            return
+            document.getElementById("card").style.display = "none";
+        } catch (error) {
+            console.error("Error obteniendo datos de la ciudad:", error);
         }
-
-        // Si la ciudad existe, muestra los datos
-        await showData(data)  // Espera a que showData termine antes de continuar
-        await fetchForecast(city) // Ahora se ejecuta en orden
-    } catch (error) {
-        console.error("Error obteniendo datos de la ciudad:", error)
     }
-} */
-
-async function fetchCityData(city) {
-    try {
-        /* suggestionsContainer.innerHTML = ""
-        suggestionsContainer.style.display = "none" */
-        const response = await fetch(`${urlBase}?q=${city}&appid=${api_key}&lang=es`);
-
-        // Verifica si la respuesta es válida
-        if (!response.ok) {
-            document.getElementById("results").style.display = "none"; // Oculto los resultados
-            Toastify({
-                text: "Ciudad no encontrada.<br>Por favor intentalo nuevamente",
-                duration: 2000,
-                gravity: "top",
-                position: "right",
-                backgroundColor: "rgb(18, 91, 143, 0.7)",
-
-                className: "multi-line-toast",
-                escapeMarkup: false // Permite que se interprete el HTML (incluyendo <br>),
-
-            }).showToast();
-            return;
-        }
-
-        const data = await response.json();
-
-        // Si la ciudad existe, muestra los datos
-        await showData(data);  // Espera a que showData termine antes de continuar
-        await fetchForecast(city); // Ahora se ejecuta en orden
-    } catch (error) {
-        console.error("Error obteniendo datos de la ciudad:", error);
-        Swal.fire({
-            title: "Error",
-            text: "Ocurrió un problema al obtener los datos. Por favor, intenta de nuevo.",
-            icon: "error",
-            width: "500px",
-            heightAuto: false,
-            padding: "5px"
-        })
-    }
-}
-
+    
 
 function getCountryFullName(countryCode) {
     return fetch(`https://restcountries.com/v3.1/alpha/${countryCode}`)
@@ -329,11 +320,6 @@ async function showData(data) {
     divsContainerWeather.appendChild(divOneCurrentWeather)
     divsContainerWeather.appendChild(divTwoCurrentWeather)
 
-    /* currentWeather.appendChild(tempMaxMinData)
-    currentWeather.appendChild(realFeelsData)
-    currentWeather.appendChild(humidityData)
-    currentWeather.appendChild(pressureData) */
-
     results.appendChild(currentWeather)
     results.appendChild(divsContainerWeather)
 
@@ -357,11 +343,6 @@ function showForecast(data) {
 
     const forecastContainer = document.createElement("div")
     forecastContainer.id = "forecastContainer"
-
-    /*     const forecastTitle = document.createElement("h3")
-        forecastTitle.textContent = "Pronóstico para los próximos 5 días"
-        forecastTitle.id = "forecastTitle"
-        forecastContainer.appendChild(forecastTitle) */
 
     // Acá se muestran los 5 días
     data.list.forEach((forecast, index) => {
