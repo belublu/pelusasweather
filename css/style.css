@@ -257,12 +257,6 @@ img {
         flex-direction: column;
         align-items: center;
         overflow-y: auto;
-        min-height: 100vh;
-        background-image: url('your-background-image.jpg'); /* Tu imagen de fondo */
-        background-size: cover; /* Asegura que el fondo cubra toda la pantalla */
-        background-position: center; /* Centra el fondo */
-        background-repeat: no-repeat; /* Evita la repetición de la imagen */
-        height: 100vh; /* Ocupa el 100% de la altura de la pantalla */
     }
 
     #card {
@@ -319,7 +313,6 @@ img {
         margin-top: 5px;
         margin-bottom: 5px;
         width: 80px;
-        color: red;
     }
 
     #forecastMinMax {
