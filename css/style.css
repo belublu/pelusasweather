@@ -87,6 +87,8 @@ input[type="text"] {
 }
 
 /* Resultados */
+
+
 #results {
     display: none;
     flex-direction: column;
@@ -100,7 +102,6 @@ input[type="text"] {
     width: 95%;
     max-width: 400px;
     max-height: 85vh;
-    overflow-y: auto;
     padding-bottom: 60px;
 }
 
@@ -121,13 +122,17 @@ input[type="text"] {
 }
 
 #forecastContainer {
+    background-color: rgb(18, 91, 143, 0.5);
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
     text-align: center;
     border-radius: 5px;
+    margin-top: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
     max-height: 250px;
-    overflow-y: auto;
+
 }
 
 #forecastItem {
@@ -194,15 +199,18 @@ input[type="text"] {
         display: none;
     }
 
+    #resultsContainer{
+        justify-items: center;
+        margin-top: 10px;
+    }
+
     #results {
         max-height: 85vh;
-        overflow-y: auto;
         padding-bottom: 60px;
     }
 
     #forecastContainer {
         max-height: 200px;
-        overflow-y: auto;
     }
 
     #divsContainerWeather {
@@ -212,5 +220,9 @@ input[type="text"] {
     #forecastItem {
         width: 80px;
         margin: 5px;
+    }
+
+    #backButton {
+        width: 80%;
     }
 }
