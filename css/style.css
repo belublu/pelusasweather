@@ -1,3 +1,4 @@
+/* Estilos generales */
 * {
     padding: 0;
     margin: 0;
@@ -5,12 +6,19 @@
     font-family: 'Trebuchet MS';
 }
 
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Evita el scroll innecesario */
+}
+
 body {
-    height: 100vh;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    height: 100vh;
 }
 
 body::before {
@@ -27,39 +35,19 @@ body::before {
     z-index: -1;
 }
 
-html, body {
-    height: 100%;
-    overflow: hidden;
-}
-
-body.results-active #results {
-    margin-left: 30px;
-    /* Aplica un margen cuando se muestren los resultados */
-}
-
-/* h1 {
-    text-align: center;
-    padding: 10px;
-    margin: 10px;
-    font-family: 'Trebuchet MS';
-} */
-
+/* Tarjeta principal */
 #card {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    background-color: rgb(18, 91, 143, 0.6);
-    justify-self: center;
+    background-color: rgba(18, 91, 143, 0.6);
     align-items: center;
     text-align: center;
     max-width: 400px;
     margin: 40px;
     padding: 20px;
     border-radius: 5px;
-    -webkit-box-shadow: 8px 8px 5px 0px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 8px 8px 5px 0px rgba(0, 0, 0, 0.75);
-    box-shadow: 8px 8px 5px 0px rgba(0, 0, 0, 0.75);
-
+    box-shadow: 8px 8px 5px rgba(0, 0, 0, 0.75);
 }
 
 input[type="text"] {
@@ -70,37 +58,17 @@ input[type="text"] {
 #button {
     width: 100px;
     height: 30px;
-    background-color: rgb(255, 255, 255);
+    background-color: white;
     border: 1px solid black;
     cursor: pointer;
 }
 
-/* .suggestions-container {
-    position: absolute;
-    width: 250px;
-    background: white;
-    border: 1px solid #ccc;
-    max-height: 150px;
-    overflow-y: auto;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.suggestion-item {
-    padding: 8px;
-    cursor: pointer;
-}
-
-.suggestion-item:hover {
-    background: #f1f1f1;
-}
- */
-
+/* Contenedor de sugerencias */
 #suggestions {
     position: absolute;
     width: 100%;
     max-width: 190px;
     top: 49%;
-    /* Ajusta según el tamaño de tu input */
     z-index: 100;
 }
 
@@ -116,14 +84,9 @@ input[type="text"] {
 .suggestion-item.selected {
     background-color: #007bff;
     color: white;
-    cursor: pointer;
 }
 
-img {
-    width: 80px;
-    height: 80px;
-}
-
+/* Resultados */
 #results {
     display: none;
     flex-direction: column;
@@ -133,13 +96,12 @@ img {
     padding: 5px;
     border-radius: 5px;
     color: whitesmoke;
-    -webkit-box-shadow: 8px 8px 5px 0px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 8px 8px 5px 0px rgba(0, 0, 0, 0.75);
-    box-shadow: 8px 8px 5px 0px rgba(0, 0, 0, 0.75);
-}
-
-#currentWeather {
-    justify-items: center;
+    box-shadow: 8px 8px 5px rgba(0, 0, 0, 0.75);
+    width: 95%;
+    max-width: 400px;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding-bottom: 60px;
 }
 
 #tempData {
@@ -153,58 +115,31 @@ img {
     margin-top: 10px;
 }
 
-#tempMaxMinData,
-#humidityData {
-    line-height: 25px;
-}
-
 #divsContainerWeather {
     display: flex;
     gap: 30px;
 }
 
-#divOneCurrentWeather,
-#divTwoCurrentWeather {
-    justify-items: center;
-    margin: 10px;
-}
-
-/* #currentWeather{
-    background-color: rgb(18, 91, 143, 0.5);
-    display: flex;
-    flex-direction: column;
-    margin: 5px;
-    padding: 5px;
-    text-align: center;
-    border-radius: 5px;
-    color: whitesmoke;
-} */
-
 #forecastContainer {
-    background-color: rgb(18, 91, 143, 0.5);
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
     text-align: center;
     border-radius: 5px;
-
+    max-height: 250px;
+    overflow-y: auto;
 }
 
 #forecastItem {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 0px;
-    margin-bottom: 20px;
     width: 90px;
     height: 90px;
     padding: 10px;
-    justify-content: flex-start;
 }
 
 #forecastMinMax {
-    font-size: 12px;
-    font-weight: 400;
     font-size: 10px;
 }
 
@@ -215,14 +150,8 @@ img {
 #forecastDescription {
     font-size: 10px;
     margin-top: 5px;
-    flex-grow: 1;
-    /* Permite que el texto ocupe el espacio disponible */
-    flex-shrink: 0;
-    /* Evita que se encoja */
-    overflow: hidden;
-    /* El texto no desbordará */
     white-space: nowrap;
-    /* Evita que el texto se divida en varias líneas */
+    overflow: hidden;
 }
 
 #imgForecast {
@@ -231,32 +160,26 @@ img {
     margin-bottom: 10px;
 }
 
-.multi-line-toast {
-    max-width: 250px;
-    /* Ajusta el ancho del toast */
-    white-space: normal;
-    /* Permite que el texto se envuelva */
-    word-wrap: break-word;
-    /* Permite que las palabras se rompan si es necesario */
-    overflow-wrap: break-word;
-    /* Rompe palabras largas */
-    text-align: center;
-    /* Centra el texto */
-    font-size: 12px;
+/* Botón de volver */
+#backButton {
+    display: block;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 35px;
+    background-color: white;
+    border: 1px solid black;
+    cursor: pointer;
 }
 
-/* Media queries para pantallas mayores */
-@media (min-width: 768px) {
-    #card {
-        margin-right: 20px;
-    }
-}
-
+/* Estilos para móviles */
 @media screen and (max-width: 768px) {
     body {
         flex-direction: column;
         align-items: center;
-        overflow-y: auto;
+        justify-content: flex-start;
     }
 
     #card {
@@ -272,51 +195,22 @@ img {
     }
 
     #results {
-        max-height: 90vh; /* Limita la altura a un 70% de la pantalla */
-        padding-bottom: 50px; /* Añade un pequeño padding para asegurar que el botón no se oculte */
+        max-height: 85vh;
+        overflow-y: auto;
+        padding-bottom: 60px;
     }
 
-    #backButton {
-        display: block;
-        justify-self: center;
-        margin: 20px;
-        padding: 1;
-        width: 60%;
-        height: 30px;
-        background-color: rgb(255, 255, 255);
-        border: 1px solid black;
-        cursor: pointer;
-    }
-
-    body.results-active #results {
-        margin-left: 25px;
-        margin-right: 25px;
-        margin-top: 10px;
+    #forecastContainer {
+        max-height: 200px;
+        overflow-y: auto;
     }
 
     #divsContainerWeather {
         flex-direction: column;
-        gap: 0;
-    }
-
-    #divOneCurrentWeather {
-        margin-top: 12px;
-    }
-
-    #forecastContainer {
-        height: 210px;
-        justify-content: space-evenly;
-        align-content: center;
     }
 
     #forecastItem {
-        margin-top: 5px;
-        margin-bottom: 5px;
         width: 80px;
+        margin: 5px;
     }
-
-    #forecastMinMax {
-        margin-top: 2px;
-    }
-
 }
