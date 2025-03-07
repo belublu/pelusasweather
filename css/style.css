@@ -277,6 +277,10 @@ img {
         display: none;
     }
 
+    #results {
+        max-height: 90vh; /* Limita la altura a un 70% de la pantalla */
+        padding-bottom: 50px; /* Añade un pequeño padding para asegurar que el botón no se oculte */
+    }
 
     #backButton {
         display: block;
