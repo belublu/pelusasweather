@@ -75,6 +75,12 @@ body {
     margin-top: 5px;
 }
 
+.suggestions-container.empty {
+    padding: 0;
+    border: none;
+    box-shadow: none;
+}
+
 .suggestion-item {
     padding: 10px;
     cursor: pointer;
@@ -93,7 +99,7 @@ body {
 #resultsContainer {
     /*  flex-grow: 1; Ya no es necesario */
     overflow: hidden;
-    display: flex;
+    display: none;
     /* Añadido: Convertimos en flexbox */
     flex-direction: column;
     /* Añadido: Apilamos elementos verticalmente */
@@ -357,3 +363,4 @@ body {
         width: 50px;
     }
 }
+
