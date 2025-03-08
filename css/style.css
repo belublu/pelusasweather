@@ -1,228 +1,323 @@
-/* Estilos generales */
-* {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    font-family: 'Trebuchet MS';
-}
-
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden; /* Evita el scroll innecesario */
-}
-
+/* --- Estilos Generales (Mobile First) --- */
 body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-body::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url(../src/fondo.jpg);
+    font-family: 'Arial', sans-serif;
+    background: url("../src/fondo.jpg") no-repeat center center fixed;
+    /* Reemplaza con la ruta */
     background-size: cover;
-    background-position: center;
-    opacity: 0.4;
-    z-index: -1;
-}
-
-/* Tarjeta principal */
-#card {
+    margin: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    background-color: rgba(18, 91, 143, 0.6);
+    /* Apila elementos verticalmente en móviles */
+    justify-content: flex-start;
+    /* Alinea al inicio, no en el centro */
     align-items: center;
-    text-align: center;
-    max-width: 400px;
-    margin: 40px;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 8px 8px 5px rgba(0, 0, 0, 0.75);
+    min-height: 100vh;
+    color: #333;
 }
 
-input[type="text"] {
-    padding: 10px;
-    font-size: 15px;
+/* Contenedor principal */
+#resultsContainer,
+#card {
+    width: 90%;
+    /* Más ancho en móviles */
+    max-width: none;
+    /* Sin ancho máximo en móviles */
+    margin-top: 20px;
+    /* Espacio desde la parte superior */
+    box-sizing: border-box;
+    /* Incluye padding y border en el ancho */
+}
+
+
+/* --- Tarjeta de Búsqueda (Mobile) --- */
+#card {
+    background-color: rgba(255, 255, 255, 0.85);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+#citySearch {
+    width: 100%;
+    /* Ocupa todo el ancho disponible */
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 18px;
+    /* Texto más grande en móviles */
+    box-sizing: border-box;
+    /* Importante para el padding */
 }
 
 #button {
-    width: 100px;
-    height: 30px;
-    background-color: white;
-    border: 1px solid black;
+    width: 100%;
+    /* Botón de ancho completo en móviles */
+    padding: 12px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
     cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s;
 }
 
-/* Contenedor de sugerencias */
-#suggestions {
+#button:hover {
+    background-color: #367c39;
+}
+
+/* --- Sugerencias (Mobile) --- */
+.suggestions-container {
+    display: none;
     position: absolute;
-    width: 100%;
-    max-width: 190px;
-    top: 49%;
-    z-index: 100;
+    width: 90%;
+    /* Ancho como el contenedor principal */
+    left: 5%;
+    /* Centrar con márgenes */
+    /*  transform: translateX(-50%);  Ya no es necesario con left: 5%*/
+    z-index: 10;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 5px;
 }
 
 .suggestion-item {
-    padding: 3px;
+    padding: 12px;
+    /* Padding más grande */
     cursor: pointer;
-    background-color: white;
-    border: 1px solid #ccc;
-    font-size: 10px;
+    border-bottom: 1px solid #eee;
+    font-size: 16px;
+    /* Texto más grande */
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
 }
 
 .suggestion-item:hover,
 .suggestion-item.selected {
-    background-color: #007bff;
-    color: white;
+    background-color: #f0f0f0;
 }
 
-/* Resultados */
-
-
+/* --- Contenedor de Resultados (Mobile) --- */
 #results {
     display: none;
     flex-direction: column;
     align-items: center;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    /* Padding más ajustado */
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 90%;
+}
+
+/* --- Sección del Clima Actual (Mobile) --- */
+#currentWeather {
     text-align: center;
-    background-color: rgba(93, 125, 147, 0.7);
-    padding: 5px;
-    border-radius: 5px;
-    color: whitesmoke;
-    box-shadow: 8px 8px 5px rgba(0, 0, 0, 0.75);
-    width: 95%;
-    max-width: 400px;
-    max-height: 85vh;
-    padding-bottom: 60px;
+    margin-bottom: 15px;
+    /* Espacio reducido */
+    width: 100%;
+    /* Ocupa todo el ancho */
+}
+
+#currentWeather h2 {
+    font-size: 1.6em;
+    /* Ligeramente más pequeño */
+    margin-bottom: 5px;
 }
 
 #tempData {
-    font-size: 45px;
+    font-size: 2.5em;
+    /* Más pequeño */
     font-weight: bold;
-    margin-top: 10px;
+    margin: 0;
+}
+
+#iconData {
+    /* width: auto;  Por defecto, la imagen ocupa su tamaño natural */
+    max-width: 100%;
+    /* Asegura que no se salga del contenedor */
+    height: auto;
+    /* Mantiene la proporción */
+    margin: 10px 0;
+    /* Margen para separarlo del texto */
+
 }
 
 #descriptionData {
-    font-size: 15px;
-    margin-top: 10px;
+    font-size: 1.2em;
+    margin: 5px 0;
 }
 
 #divsContainerWeather {
     display: flex;
-    gap: 30px;
+    flex-direction: column;
+    /*Apila los divs verticalmente en mobile*/
+    width: 100%;
+    align-items: center;
+    /*Centra*/
+
 }
 
-#forecastContainer {
-    background-color: rgb(18, 91, 143, 0.5);
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
+#divOneCurrentWeather,
+#divTwoCurrentWeather {
     text-align: center;
-    border-radius: 5px;
-    margin-top: 15px;
-    margin-left: 10px;
-    margin-right: 10px;
-    max-height: 250px;
+    width: 80%;
+    margin: 0.5em;
+    /*Espacio entre ambos divs*/
+}
 
+/* --- Pronóstico (Mobile) --- */
+#forecastContainer {
+    display: flex;
+    flex-direction: column;
+    /* Apila los días verticalmente en móviles */
+    align-items: center;
+    /* Centra los elementos */
+    width: 100%;
+    margin-top: 15px;
 }
 
 #forecastItem {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 90px;
-    height: 90px;
-    padding: 10px;
-}
-
-#forecastMinMax {
-    font-size: 10px;
+    background-color: rgba(230, 244, 255, 0.8);
+    border-radius: 10px;
+    padding: 15px;
+    margin: 8px 0;
+    /* Margen vertical */
+    text-align: center;
+    width: 90%;
+    /*Ancho del pronostico*/
+    box-sizing: border-box;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* min-width: 130px;  Ya no es tan necesario en mobile-first */
 }
 
 #forecastDay {
-    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 1.1em;
+    /* Aumentar un poco el tamaño */
 }
 
+#forecastMinMax,
 #forecastDescription {
-    font-size: 10px;
-    margin-top: 5px;
-    white-space: nowrap;
-    overflow: hidden;
+    margin: 6px 0;
+    /* Más espacio */
+    font-size: 1em;
+    /* Tamaño de fuente consistente */
 }
 
 #imgForecast {
-    width: 50px;
-    height: 50px;
-    margin-bottom: 10px;
+    width: 60px;
+    /* Ligeramente más pequeño */
+    height: auto;
 }
 
-/* Botón de volver */
 #backButton {
-    display: block;
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60%;
-    height: 35px;
-    background-color: white;
-    border: 1px solid black;
+    width: auto;
+    /* Ancho automático */
+    padding: 12px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
     cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    display: block;
+    margin: 20px auto;
 }
 
-/* Estilos para móviles */
-@media screen and (max-width: 768px) {
-    body {
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
+#backButton:hover {
+    background-color: #367c39;
+}
+
+.multi-line-toast {
+    white-space: pre-line;
+}
+
+/* --- Media Queries --- */
+
+/* Tablets (768px y más) */
+@media (min-width: 768px) {
+
+    #card,
+    #resultsContainer {
+        width: 70%;
     }
 
-    #card {
-        margin: 30px;
+    .suggestions-container {
+        width: 70%;
+        /* Ajusta el ancho de las sugerencias */
+        left: 15%;
+        /*Ajusta posicion de las sugerencias*/
     }
 
-    #button {
-        margin-top: 10px;
-    }
-
-    body.results-active #card {
-        display: none;
-    }
-
-    #resultsContainer{
-        justify-items: center;
-        margin-top: 10px;
-    }
-
-    #results {
-        max-height: 85vh;
-        padding-bottom: 60px;
+    #currentWeather h2 {
+        font-size: 2em;
+        /* Más grande en tablets */
     }
 
     #forecastContainer {
-        max-height: 200px;
-    }
-
-    #divsContainerWeather {
-        flex-direction: column;
+        flex-direction: row;
+        /* Vuelve a la disposición horizontal */
+        flex-wrap: wrap;
+        /* Permite que los elementos se envuelvan */
+        justify-content: space-around;
+        /*Distribuye espacio entre elementos*/
     }
 
     #forecastItem {
-        width: 80px;
-        margin: 5px;
+        flex: 0 0 calc(45% - 16px);
+        /* Dos elementos por fila, con margen */
+        width: auto;
+        /* Resetear el width para que flex funcione */
+        margin: 8px;
     }
 
-    #backButton {
+    #divsContainerWeather {
+        flex-direction: row;
+        /*Vuelve a horizontal*/
+    }
+}
+
+/* Escritorio (1024px y más) */
+@media (min-width: 1024px) {
+
+    #card,
+    #resultsContainer {
+        max-width: 600px;
+        /* Ancho máximo en escritorio */
         width: 80%;
+        /* Reduce un poco el ancho */
+    }
+
+    .suggestions-container {
+        width: calc(80% - 40px);
+        /* Ajustado para el padding */
+        max-width: 600px;
+        /* Igual que el contenedor */
+        left: 50%;
+        transform: translateX(-50%);
+        /* Centrado perfecto */
+
+    }
+
+    #currentWeather h2 {
+        font-size: 2.2em;
+    }
+
+    #forecastItem {
+        flex: 0 0 calc(20% - 16px);
+        /* Cinco elementos por fila */
+        margin: 8px;
     }
 }
