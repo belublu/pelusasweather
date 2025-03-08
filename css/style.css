@@ -1,6 +1,9 @@
 /* --- Estilos Generales (Mobile First) --- */
+* {
+    font-family: 'trebuchet ms', sans-serif;
+}
+
 body {
-    font-family: 'Arial', sans-serif;
     background: url('../src/fondo.jpg') no-repeat center center fixed;
     background-size: cover;
     margin: 0;
@@ -8,26 +11,29 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    overflow: hidden; /* Evita scroll en el body */
+    overflow: hidden;
     color: #333;
 }
 
 /* Contenedores principales */
-#resultsContainer, #card {
-    width: 95%;
+/* results container ahora no tendra display flex*/
+#resultsContainer,
+#card {
+    width: 90%;
     margin: 0 auto;
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
+    /* display: flex;  Ya no es necesario aquí */
+    /* flex-direction: column; */
 }
 
 #card {
     background-color: rgba(255, 255, 255, 0.85);
     padding: 20px;
+    margin-top: 20px;
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
-    justify-content: center;
+    /* justify-content: center; Ya no es necesario */
 }
 
 #citySearch {
@@ -43,13 +49,16 @@ body {
 #button {
     width: 100%;
     padding: 10px;
-    background-color: #4CAF50;
+    color: white;
+    background-color: rgb(58, 122, 243);
+    border-radius: 8px;
     font-size: 16px;
 }
 
-#button:hover {
-    background-color: #367c39;
-}
+/* #button:hover {
+    background-color: rgb(49, 55, 201);
+} */
+
 /* --- Sugerencias (Mobile) --- */
 .suggestions-container {
     display: none;
@@ -73,27 +82,43 @@ body {
     font-size: 14px;
 }
 
-.suggestion-item:last-child, .suggestion-item:hover, .suggestion-item.selected {
-     border-bottom: none;
-     background-color: #f0f0f0;
+.suggestion-item:last-child,
+.suggestion-item:hover,
+.suggestion-item.selected {
+    border-bottom: none;
+    background-color: #f0f0f0;
 }
+
 /* --- Contenedor de Resultados (Mobile) --- */
 #resultsContainer {
-    flex-grow: 1;
-    overflow: hidden; /* Evita scroll interno */
+    /*  flex-grow: 1; Ya no es necesario */
+    overflow: hidden;
+    display: flex;
+    /* Añadido: Convertimos en flexbox */
+    flex-direction: column;
+    /* Añadido: Apilamos elementos verticalmente */
+    justify-content: center;
+    /* Añadido: Centrado vertical */
+    align-items: center;
+    /* Añadido: Centrado horizontal */
+    height: 100%;
+    /*Ocupa toda la altura*/
 }
 
 #results {
     display: flex;
     flex-direction: column;
     align-items: center;
+    /* Ya no es necesario, lo hacemos en el padre */
     background-color: rgba(255, 255, 255, 0.9);
     padding: 10px;
+    margin-top: 30px;
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     width: 100%;
-    height: 100%;
+    /*Ocupa todo el ancho del contenedor padre*/
     box-sizing: border-box;
+    opacity: 0.9;
 }
 
 /* --- Sección del Clima Actual (Mobile) --- */
@@ -102,6 +127,7 @@ body {
     margin-bottom: 10px;
     width: 100%;
     flex-shrink: 0;
+    /* Evita que se encoja */
 }
 
 #currentWeather h2 {
@@ -126,14 +152,15 @@ body {
     margin: 3px 0;
 }
 
-#divsContainerWeather{
+#divsContainerWeather {
     display: flex;
     flex-direction: column;
     width: 100%;
     align-items: center;
 }
 
-#divOneCurrentWeather, #divTwoCurrentWeather{
+#divOneCurrentWeather,
+#divTwoCurrentWeather {
     text-align: center;
     width: 80%;
     margin: 0.5em;
@@ -143,54 +170,70 @@ body {
 /* --- Pronóstico (Mobile) --- */
 #forecastContainer {
     display: flex;
-    flex-direction: row; /* ¡Importante! Disposición horizontal */
-    align-items: center;  /* Centrado vertical */
-    justify-content: space-between; /* Distribuye el espacio */
+    flex-direction: row;
+    align-items: stretch;
+    /* ¡Importante! Estira los elementos */
+    justify-content: space-between;
     width: 100%;
-    flex-grow: 1;      /* Ocupa el espacio disponible */
-    overflow-x: auto;  /* Permite scroll horizontal si es necesario */
-    overflow-y: hidden; /* Oculta scroll vertical */
-    white-space: nowrap; /* Evita que los elementos se envuelvan */
-        /* Añade padding */
+    /* flex-grow: 1;  Ya no es necesario */
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    padding: 5px 0;
 }
 
 #forecastItem {
     background-color: rgba(230, 244, 255, 0.8);
     border-radius: 10px;
-    padding: 4px;
-    margin: 0 1px; /* Margen horizontal reducido */
+    padding: 5px;
+    margin: 0 3px;
     text-align: center;
     box-sizing: border-box;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    flex-shrink: 0; /* Evita que se encojan */
-    width: auto;    /* Ancho automatico */
-    min-width: 60px; /* Ancho mínimo */
-    display: inline-block; /* Para que el white-space funcione */
+    flex-shrink: 0;
+    /* width: auto; Ya no es necesario */
+    min-width: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    /* height: 100%;  ¡Importante! Ocupa toda la altura disponible */
+    flex: 1 0 60px;
+    /* Crecen y se encogen por igual, base de 60px */
 
 }
 
 #forecastDay {
     font-weight: bold;
     margin-bottom: 2px;
-    font-size: 0.8em; /* Reducido */
+    font-size: 0.8em;
 }
 
-#forecastMinMax, #forecastDescription {
+#forecastMinMax,
+#forecastDescription {
     margin: 2px 0;
-    font-size: 0.7em; /* Aún más reducido */
-    white-space: normal; /* Permite que el texto se ajuste */
-
+    font-size: 0.7em;
+    /* white-space: normal;  Ya no es necesario */
+    text-align: center;
+    /* Asegura que el texto esté centrado */
+    flex-grow: 1;
+    /* ¡Importante! Permite que este bloque crezca */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /*Centrado vertical*/
 }
 
 #imgForecast {
-    width: 30px; /* Aún más pequeño */
+    width: 30px;
     height: auto;
-
 }
+
+/* Botón */
 #backButton {
     width: auto;
     padding: 10px 15px;
-    background-color: #4CAF50;
+    background-color: rgb(58, 122, 243);
     color: white;
     border: none;
     border-radius: 8px;
@@ -198,61 +241,78 @@ body {
     font-size: 14px;
     transition: background-color 0.3s;
     display: block;
+    /*Para que funcione el centrado*/
     margin: 10px auto;
+    /* Centrado horizontal y margen superior/inferior */
+
 }
 
 #backButton:hover {
-    background-color: #367c39;
+    background-color: rgb(28, 81, 179);
 }
 
 .multi-line-toast {
     white-space: pre-line;
 }
 
+
 /* --- Media Queries --- */
 
 /* Tablets (768px y más) */
 @media (min-width: 768px) {
-     body{
+    body {
         overflow: auto;
     }
-    #card, #resultsContainer {
-      width: 70%;
+
+    #card,
+    #resultsContainer {
+        width: 70%;
     }
-     #results{
+
+    #results {
         overflow: visible;
     }
 
-     .suggestions-container {
-        width: 70%; /* Ajusta el ancho de las sugerencias */
-         left: 15%; /*Ajusta posicion de las sugerencias*/
+    .suggestions-container {
+        width: 70%;
+        left: 15%;
     }
+
     #currentWeather h2 {
         font-size: 2em;
     }
 
     #forecastContainer {
-        justify-content: space-around; /* Distribuye mejor el espacio */
-        overflow-x: hidden; /* Oculta scroll horizontal en tablets */
-        padding: 10px 0; /* Mas padding */
+        justify-content: space-around;
+        overflow-x: hidden;
+        padding: 10px 0;
+
     }
+
     #forecastItem {
-        min-width: 80px; /* Un poco más ancho en tablets */
-        margin: 0 5px;      /* Ajusta margen */
+        min-width: 80px;
+        margin: 0 5px;
+        flex: 1 0 80px;
+        /* Ajustado para tablets */
     }
+
     #forecastDay {
         font-size: 0.9em;
     }
 
-      #forecastMinMax, #forecastDescription {
+    #forecastMinMax,
+    #forecastDescription {
         font-size: 0.8em;
     }
-     #imgForecast {
+
+    #imgForecast {
         width: 40px;
     }
-    #divsContainerWeather{
+
+    #divsContainerWeather {
         flex-direction: row;
     }
+
     #iconData {
         max-width: 100px;
     }
@@ -260,12 +320,14 @@ body {
 
 /* Escritorio (1024px y más) */
 @media (min-width: 1024px) {
-    #card, #resultsContainer{
+
+    #card,
+    #resultsContainer {
         max-width: 600px;
         width: 80%;
     }
 
-     .suggestions-container {
+    .suggestions-container {
         width: calc(80% - 40px);
         max-width: 600px;
         left: 50%;
@@ -276,18 +338,22 @@ body {
         font-size: 2.2em;
     }
 
-     #forecastItem {
-        min-width: 100px; /* Más ancho en escritorio */
-
-    }
-     #forecastDay {
-        font-size: 1em; /* Aumenta el tamaño en escritorio */
+    #forecastItem {
+        min-width: 100px;
+        flex: 1 0 100px;
+        /* Ajustado para escritorio */
     }
 
-    #forecastMinMax, #forecastDescription {
-        font-size: 0.9em; /* Aumenta el tamaño */
+    #forecastDay {
+        font-size: 1em;
     }
-    #imgForecast{
+
+    #forecastMinMax,
+    #forecastDescription {
+        font-size: 0.9em;
+    }
+
+    #imgForecast {
         width: 50px;
     }
 }
