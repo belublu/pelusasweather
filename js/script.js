@@ -332,7 +332,7 @@ function fetchForecast(city) {
         .then(data => data.json())
         .then(forecastData => showForecast(forecastData))
 }
-function showForecast(data) {
+/* function showForecast(data) {
     const results = document.getElementById("results")
 
     // Elimina los datos anteriores
@@ -367,5 +367,42 @@ function showForecast(data) {
 
     results.appendChild(forecastContainer)
 
-}
+} */
 
+    function showForecast(data) {
+        const results = document.getElementById("results");
+    
+        // Elimina los datos anteriores
+        let previousForecast = document.getElementById("forecastContainer");
+        if (previousForecast) {
+            previousForecast.remove();
+        }
+    
+        const forecastContainer = document.createElement("div");
+        forecastContainer.id = "forecastContainer";
+    
+        // Filtrar para obtener solo 4 días (cada 8 elementos, empezando por el primero)
+        const fourDaysForecast = data.list.filter((forecast, index) => index % 8 === 0).slice(0, 4);
+    
+    
+        // Usar fourDaysForecast en lugar de data.list
+        fourDaysForecast.forEach((forecast) => {  // Ya no necesitamos el 'index' aquí
+            const forecastDate = new Date(forecast.dt * 1000);
+            const dayOfWeek = capFirstLetter(forecastDate.toLocaleDateString("es-ES", { weekday: "long" }));
+            const forecastDescription = capFirstLetter(forecast.weather[0].description);
+            const forecastIcon = forecast.weather[0].icon;
+            const forecastTempMin = Math.floor(forecast.main.temp_min - kelvinDegree);
+            const forecastTempMax = Math.floor(forecast.main.temp_max - kelvinDegree);
+            const forecastItem = document.createElement("div");
+            forecastItem.id = "forecastItem";
+            forecastItem.innerHTML = `
+                <p id="forecastDay"><strong>${dayOfWeek}</strong></p>
+                <p id="forecastMinMax"> ${forecastTempMax}° / ${forecastTempMin}°</p>
+                <p id="forecastDescription">${forecastDescription}</p>
+                <img src="http://openweathermap.org/img/wn/${forecastIcon}@4x.png" id="imgForecast">
+            `;
+            forecastContainer.appendChild(forecastItem);
+        });
+    
+        results.appendChild(forecastContainer);
+    }
