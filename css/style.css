@@ -56,7 +56,7 @@ body {
     width: 100%;
     /* Botón de ancho completo en móviles */
     padding: 12px 20px;
-    background-color: #4CAF50;
+    background-color: #4c8fe8;
     color: white;
     border: none;
     border-radius: 8px;
@@ -237,7 +237,7 @@ body {
 }
 
 #backButton:hover {
-    background-color: #367c39;
+    background-color: #1f6bce;
 }
 
 .multi-line-toast {
