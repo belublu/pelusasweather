@@ -91,25 +91,28 @@ async function fetchCitySuggestions(query) {
 
 // --- Función displaySuggestions (Geoapify) ---
 function displaySuggestionsGeoapify(places) {
-    suggestionsContainer.innerHTML = ""; // Limpia resultados anteriores
-    suggestions = places; // Actualiza la lista global de sugerencias
-    selectedIndex = -1; // Restablece la selección
+    suggestionsContainer.innerHTML = "";
+    suggestions = places;
+    selectedIndex = -1;
     suggestionsContainer.classList.remove("empty");
 
     places.forEach((place) => {
         let suggestion = document.createElement("div");
-        suggestion.classList.add("suggestion-item"); // Agrega la clase CSS
-        suggestion.textContent = place.properties.formatted; // Usa 'formatted'
+        suggestion.classList.add("suggestion-item");
+        suggestion.textContent = place.properties.formatted;
 
-        suggestion.addEventListener("click", () => {
-            handleSearch(); //Llama a la funcion handleSearch.
-            citySearch.value = ""; // Limpia la entrada
-            suggestionsContainer.innerHTML = ""; // Limpia las sugerencias
+        // CAMBIA 'click' por 'mousedown'
+        suggestion.addEventListener("mousedown", (event) => {
+            event.preventDefault(); //  ¡Importante!
+            citySearch.value = place.properties.formatted; //  Actualiza el input
+            handleSearch();  //  Realiza la búsqueda
+            suggestionsContainer.innerHTML = ""; //  Limpia
+            suggestionsContainer.style.display = "none";
             suggestionsContainer.classList.add("empty");
-            suggestions = []; // Limpia
+            suggestions = [];
         });
 
-        suggestionsContainer.appendChild(suggestion); // Agrega la sugerencia al contenedor
+        suggestionsContainer.appendChild(suggestion);
     });
 }
 
