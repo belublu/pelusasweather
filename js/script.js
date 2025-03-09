@@ -112,9 +112,11 @@ function updateSelection(items) {
 
 
 // --- Evento click del botón (sin cambios) ---
-document.getElementById("button").addEventListener("click", (e) => {
-    e.preventDefault();
-    handleSearch(); // Llama sin argumentos
+document.addEventListener("pointerdown", (e) => { // Usa pointerdown
+    if (!citySearch.contains(e.target) && !suggestionsContainer.contains(e.target)) {
+        suggestionsContainer.innerHTML = "";
+        suggestionsContainer.classList.add("empty");
+    }
 });
 
 
