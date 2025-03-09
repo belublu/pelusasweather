@@ -70,7 +70,7 @@ let spinnerOpts = {
     width: 5,
     radius: 15,
     color: "#ffff",
-    speed: 0.5,
+    speed: 0.2,
     trail: 60,
 };
 let spinner = null; // Declara la variable spinner
