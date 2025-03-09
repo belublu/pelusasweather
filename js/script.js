@@ -86,7 +86,7 @@ function displaySuggestions(cities) {
         suggestion.classList.add("suggestion-item");
         suggestion.textContent = `${city.name}, ${city.countryName}`;
 
-        suggestion.addEventListener("pointerdown", () => {
+        suggestion.addEventListener("click", () => {
             handleSearch(city.name); // Llama a handleSearch
             citySearch.value = "";
             suggestionsContainer.innerHTML = "";
@@ -112,11 +112,9 @@ function updateSelection(items) {
 
 
 // --- Evento click del botón (sin cambios) ---
-document.addEventListener("pointerdown", (e) => { // Usa pointerdown
-    if (!citySearch.contains(e.target) && !suggestionsContainer.contains(e.target)) {
-        suggestionsContainer.innerHTML = "";
-        suggestionsContainer.classList.add("empty");
-    }
+document.getElementById("button").addEventListener("click", (e) => {
+    e.preventDefault();
+    handleSearch(); // Llama sin argumentos
 });
 
 
