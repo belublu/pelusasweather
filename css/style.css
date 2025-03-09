@@ -128,7 +128,6 @@ body::before {
     /* Añadido: Centrado horizontal */
     height: 100%;
     /*Ocupa toda la altura*/
-    margin: 50px auto 0;
 }
 
 #results {
