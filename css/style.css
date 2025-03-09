@@ -47,10 +47,11 @@ body::before {
 #card {
     background-color: rgba(255, 255, 255, 0.85);
     padding: 20px;
-    margin-top: 20px;
+    margin-top: 200px;
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
+   
     /* justify-content: center; Ya no es necesario */
 }
 
@@ -127,6 +128,7 @@ body::before {
     /* Añadido: Centrado horizontal */
     height: 100%;
     /*Ocupa toda la altura*/
+    margin: 50px auto 0;
 }
 
 #results {
