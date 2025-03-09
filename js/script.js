@@ -216,6 +216,8 @@ async function fetchCityData(city, searchId) {
         const longitude = location[0];
         const latitude = location[1];
 
+        console.log("Datos de Geoapify (coordenadas):", geocodingData);
+
 
         // --- 2. Obtener datos del clima de OpenWeatherMap ---
         const response = await fetch(urlBase + "?lat=" + latitude + "&lon=" + longitude + "&appid=" + api_key + "&lang=es");
@@ -224,6 +226,7 @@ async function fetchCityData(city, searchId) {
             handleGeocodingError();
             return;
         }
+
 
         const data = await response.json(); // Parsea la respuesta
 
@@ -271,6 +274,8 @@ async function showData(data, searchId) {
     const realFeels = data.main.feels_like;
     const description = data.weather[0].description;
     const icon = data.weather[0].icon;
+    console.log("Icono recibido de la API:", icon);
+    changeBackground(icon)
     const pressure = data.main.pressure;
     const tempMax = data.main.temp_max;
     const tempMin = data.main.temp_min;
@@ -344,6 +349,8 @@ function fetchForecast(latitude, longitude, searchId) {
     fetch(urlForecast + "?lat=" + latitude + "&lon=" + longitude + "&appid=" + api_key + "&lang=es")
         .then(data => data.json()) // Parsea como JSON
         .then(forecastData => {
+            console.log("Datos de OpenWeatherMap (pronóstico):", forecastData); //Agregar aqui
+
             // Comprueba si la búsqueda sigue siendo válida
             if (searchId === currentSearchId) {
                 showForecast(forecastData, searchId);  // Muestra el pronóstico
@@ -363,7 +370,7 @@ function showForecast(data, searchId) {
     forecastContainer.id = "forecastContainer";
 
     // Filtra para 4 días (cada 8 elementos)
-    const fourDaysForecast = data.list.filter((forecast, index) => index % 8 === 0).slice(0, 4);
+    const fourDaysForecast = data.list.filter((forecast, index) => index % 8 === 0).slice(1, 5);
 
     fourDaysForecast.forEach((forecast) => {
         //Formateo de datos
@@ -434,4 +441,58 @@ function handleGeocodingError(error) {
         className: "multi-line-toast", //  Para saltos de línea
         escapeMarkup: false, // Permite HTML (para <br>)
     }).showToast();
+}
+
+/* // Función para determinar la hora del día
+function isNight() {
+    const now = new Date()
+    const hours = now.getHours()
+    return hours < 6 || hours > 20 // Considero noche antes de las 6 y despues de las 20
+} */
+
+// Función para cambiar el fondo según la hora del día
+function changeBackground(icon) {
+    console.log("changeBackground llamado con icono:", icon)
+    let backgroundUrl = "../src/dayFewClouds.jpg" // Fondo por defecto
+
+    if (document.body.classList.contains("results-active")) { // Si estoy en los resultados
+        if (icon === "01d") { // Cielo despejado de día
+            backgroundUrl = "../src/dayClearSky.jpg"
+        } else if (icon === "01n") { // Cielo despejado de noche
+            backgroundUrl = "../src/nightClearSky.jpg"
+        } else if (icon === "02d") { // Cielo con algunas nubes de día
+            backgroundUrl = "../src/dayFewClouds.jpg"
+        } else if (icon === "02n") { // Cielo con algunas nubes de noche
+            backgroundUrl = "../src/nightFewClouds.webp"
+        } else if (icon === "03d") { // Cielo con muchas nubes de dia
+            backgroundUrl = "../src/dayScatteredClouds.jpg"
+        } else if (icon === "03n") { // Cielo con muchas nubes de noche
+            backgroundUrl = "../src/nightScatteredClouds.webp"
+        } else if (icon === "04d") { // Cielo nublado de dia
+            backgroundUrl = "../src/dayBrokenClouds.jpg"
+        } else if (icon === "04n") { // Cielo nublado de noche
+            backgroundUrl = "../src/nightBrokenClouds.jpg"
+        } else if (icon === "09d") { // Llovizna de dia
+            backgroundUrl = "../src/dayShowerRain.webp"
+        } else if (icon === "09n") { // Llovizna de noche
+            backgroundUrl = "../src/nightShowerRain.jpg"
+        } else if (icon === "10d") { // Lluvia de dia
+            backgroundUrl = "../src/dayRain.jpg"
+        } else if (icon === "10n") { // Lluvia de noche
+            backgroundUrl = "../src/nightRain.jpg"
+        } else if (icon === "11d") { // Tormenta de dia
+            backgroundUrl = "../src/dayThunderstorm.webp"
+        } else if (icon === "11n") { // Tormenta de noche
+            backgroundUrl = "../src/nightThunderstorm.jpg"
+        } else if (icon === "13d") { // Nieve de dia
+            backgroundUrl = "../src/daySnow.jpg"
+        } else if (icon === "13n") { // Nieve de noche
+            backgroundUrl = "../src/nightSnow.jpg"
+        } else if (icon === "50d") { // Niebla de dia
+            backgroundUrl = "../src/dayMist.webp"
+        } else if (icon === "50n") { // Niebla de noche
+            backgroundUrl = "../src/nightMist.webp"
+        }
+        document.body.style.setProperty(`--background-image`, `url('${backgroundUrl}')`)
+    }
 }
