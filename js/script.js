@@ -7,7 +7,6 @@ const suggestionsContainer = document.getElementById("suggestions");
 let kelvinDegree = 273.15;
 let selectedIndex = -1;
 let suggestions = [];
-
 let currentSearchId = 0; // Identificador de búsqueda
 
 
@@ -56,12 +55,12 @@ citySearch.addEventListener("keydown", (e) => {
 // --- Función fetchCitySuggestions (sin cambios) ---
 async function fetchCitySuggestions(query) {
     try {
-        let response = await fetch(`http://api.geonames.org/searchJSON?q=${query}&maxRows=5&username=${geoNamesUser}&lang=es`);
+        let response = await fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=5&addressdetails=1&accept-language=es`);
         let data = await response.json();
 
-        if (data.geonames.length > 0) {
+        if (data.length > 0) {
             suggestionsContainer.classList.remove("empty");
-            displaySuggestions(data.geonames);
+            displaySuggestionsNominatim(data);
         } else {
             suggestionsContainer.innerHTML = "";
             suggestionsContainer.classList.add("empty");
@@ -75,7 +74,7 @@ async function fetchCitySuggestions(query) {
 }
 
 // --- Función displaySuggestions (sin cambios) ---
-function displaySuggestions(cities) {
+function displaySuggestionsNominatim(cities) {
     suggestionsContainer.innerHTML = "";
     suggestions = cities;
     selectedIndex = -1; // Reinicia
@@ -84,7 +83,8 @@ function displaySuggestions(cities) {
     cities.forEach((city) => {
         let suggestion = document.createElement("div");
         suggestion.classList.add("suggestion-item");
-        suggestion.textContent = `${city.name}, ${city.countryName}`;
+        /* suggestion.textContent = `${city.name}, ${city.countryName}`; */
+        suggestion.textContent = `${city.display_name}`
 
         suggestion.addEventListener("click", () => {
             handleSearch(city.name); // Llama a handleSearch
@@ -106,17 +106,15 @@ function updateSelection(items) {
 
     if (selectedIndex >= 0 && selectedIndex < items.length) {
         items[selectedIndex].classList.add("selected");
-        citySearch.value = suggestions[selectedIndex].name; // Actualiza
+        /* citySearch.value = suggestions[selectedIndex].name; // Actualiza */
     }
 }
-
 
 // --- Evento click del botón (sin cambios) ---
 document.getElementById("button").addEventListener("click", (e) => {
     e.preventDefault();
     handleSearch(); // Llama sin argumentos
 });
-
 
 // --- Función handleSearch (MODIFICADA) ---
 function handleSearch(cityParam) {
@@ -433,12 +431,6 @@ function showForecast(data, searchId) {
     }
 
     const results = document.getElementById("results");
-
-    // Ya no hace falta eliminar, se hace al inicio de la nueva búsqueda
-    // let previousForecast = document.getElementById("forecastContainer");
-    // if (previousForecast) {
-    //     previousForecast.remove();
-    // }
 
     const forecastContainer = document.createElement("div");
     forecastContainer.id = "forecastContainer";
