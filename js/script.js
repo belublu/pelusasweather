@@ -86,7 +86,7 @@ function displaySuggestions(cities) {
         suggestion.classList.add("suggestion-item");
         suggestion.textContent = `${city.name}, ${city.countryName}`;
 
-        suggestion.addEventListener("click", () => {
+        suggestion.addEventListener("pointerdown", () => {
             handleSearch(city.name); // Llama a handleSearch
             citySearch.value = "";
             suggestionsContainer.innerHTML = "";
